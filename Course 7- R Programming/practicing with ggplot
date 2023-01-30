@@ -1,0 +1,91 @@
+---
+title: "ggplot_hook"
+author: "Sandra"
+date: "2023-01-30"
+output: html_document
+---
+## Setting up my environment
+### Setting up:
+* 'tidyverse' 
+* 'PalmerPenguins'
+* 'Tmisc'
+* 'DatasauRus'
+
+```{r loading packages, warning=FALSE}
+library(tidyverse)
+library(palmerpenguins)
+library(Tmisc)
+library(datasauRus)
+
+```
+### playing with scatter plots with the penguins data
+
+```{r scatter plots, message=FALSE, warning=FALSE}
+
+
+ggplot(data=penguins)+
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species, shape = species))
+
+ggplot(data=penguins)+
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, alpha = species))
+
+ggplot(data=penguins)+
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g), color="purple")
+
+ggplot(data = penguins, mapping = aes(x=flipper_length_mm , y = body_mass_g, color=species, shape=species))+
+  geom_point()
+
+ggplot(data = penguins, mapping = aes(x=flipper_length_mm , y = body_mass_g, linetype=species))+
+  geom_smooth()
+
+ggplot(data = penguins, mapping = aes(x=flipper_length_mm , y = body_mass_g))+
+  geom_smooth()+
+  geom_point()
+
+ggplot(data=penguins)+
+  geom_jitter(mapping = aes(x = flipper_length_mm, y = body_mass_g))
+
+#smooth
+ggplot(data = penguins, mapping = aes(x = flipper_length_mm, y = body_mass_g))+
+  geom_point()+
+  geom_smooth(method="gam", 
+              formula = y ~s(x))
+
+
+ggplot(data = penguins)+
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species))+
+  labs(title="Palmer Penguins: Body Mass vs flipper Length", 
+       subtitle = "Sample of 3 Species",
+       caption = "src")+
+  annotate("text", x=220, y=3500, label = "Gentoos r the largest",
+           fontface="bold", size=4.5,
+           angle=25, color="purple")
+
+
+```
+
+## bar graph with the diamonds dataset
+```{r diamonds dataset, message=FALSE, warning=FALSE}
+
+ggplot(data = diamonds)+
+  geom_bar(mapping = aes(x=cut, fill = clarity))
+```
+
+## Same data, Different Output
+### quartet dataset
+```{r quartet dataset, message=FALSE, warning=FALSE}
+
+quartet %>% 
+  group_by(set) %>% 
+  summarise(mean(x), sd(x), mean(y), sd(y))
+
+ggplot(quartet, aes(x,y))+geom_point()+geom_smooth(method = lm, se=FALSE)+facet_wrap('set')
+
+```
+
+### datasauRus dataset
+```{r message=FALSE, warning=FALSE}
+
+ggplot(datasaurus_dozen, aes(x, y, color=dataset))+geom_point()+facet_wrap('dataset')+theme_void()
+
+```
